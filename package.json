@@ -24,7 +24,18 @@
     "copyright": "Copyright © 2019 Ouracademy",
     "publish": [
       "github"
-    ]
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    }
   },
   "dependencies": {
     "electron-updater": "^4.0.4"
