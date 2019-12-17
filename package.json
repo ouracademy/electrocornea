@@ -1,0 +1,32 @@
+{
+  "name": "electrocornea",
+  "version": "0.0.1",
+  "description": "ElectroCornea desktop client",
+  "main": "src/core/main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps",
+    "release": "build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ouracademy/electrocornea.git"
+  },
+  "devDependencies": {
+    "electron": "^3.0.9",
+    "electron-builder": "^20.36.2"
+  },
+  "build": {
+    "appId": "org.our-academy.electrocornea",
+    "productName": "ElectroCornea",
+    "copyright": "Copyright © 2019 Ouracademy",
+    "publish": [
+      "github"
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^4.0.4"
+  }
+}
