@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron')
 const { autoUpdater } = require("electron-updater")
+const path = require("path")
 
 let win
 
@@ -8,14 +9,18 @@ const dispatch = (data) => {
 }
 
 const createDefaultWindow = () => {
-  win = new BrowserWindow()
+  win = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
 
   win.on('closed', () => {
     win = null
   })
 
   win.loadFile('src/gui/index.html')
-
+  
   return win
 }
 
@@ -57,9 +62,7 @@ autoUpdater.on('download-progress', (progressObj) => {
   // log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
   // log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')'
   // dispatch(log_message)
-
-    win.webContents.send('download-progress', progressObj.percent)
-
+  win.webContents.send('download-progress', progressObj.percent)
 })
 
 autoUpdater.on('update-downloaded', (info) => {

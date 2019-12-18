@@ -15,8 +15,8 @@
     "url": "git+https://github.com/ouracademy/electrocornea.git"
   },
   "devDependencies": {
-    "electron": "^3.0.9",
-    "electron-builder": "^20.36.2"
+    "electron": "^7.1.5",
+    "electron-builder": "^21.2.0"
   },
   "build": {
     "appId": "org.our-academy.electrocornea",
@@ -38,6 +38,6 @@
     }
   },
   "dependencies": {
-    "electron-updater": "^4.0.4"
+    "electron-updater": "^4.2.0"
   }
 }
