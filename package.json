@@ -1,6 +1,6 @@
 {
   "name": "electrocornea",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "ElectroCornea desktop client",
   "main": "src/core/main.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps",
-    "release": "build"
+    "release": "electron-builder build"
   },
   "repository": {
     "type": "git",
