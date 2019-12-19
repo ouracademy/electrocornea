@@ -19,15 +19,11 @@ ipcRenderer.on("version", (event, text) => {
 ipcRenderer.on("download-progress", (event, text) => {
     progressBar.style.width = `${text}%`;
 });
-const { getFiles, getLastLine, addTexToFile } = require("../modules/files");
-const {
-    pentacamAutocsvPath,
-    filesToAnalyze,
-    isAnalyzable
-} = require("../modules/watch");
+const { getFiles, addTexToFile } = require("../modules/files");
+const { pentacamAutocsvPath, processFile } = require("../modules/watch");
 
 select("#addFile").addEventListener("click", evt => {
-    addTexToFile(path.join(pentacamAutocsvPath, "INDEX-LOAD.CSV"), "HOLLAS");
+    addTexToFile(path.join(pentacamAutocsvPath, "INDEX-LOAD.CSV"), "\nHOLLAS");
 });
 
 document.getElementById("form-input").value = pentacamAutocsvPath;
@@ -41,22 +37,5 @@ select("#form").addEventListener("submit", evt => {
 
     const aFile = getFiles(input.value)[fileIndex];
     fileIndex++;
-    processFile(aFile);
+    processFile(path.join(pentacamAutocsvPath, aFile));
 });
-
-const processFile = aFile => {
-    console.log("Leyendo..", aFile);
-    if (!isAnalyzable(aFile)) {
-        return;
-    }
-
-    console.log("Enviando request...");
-    getLastLine(path.join(pentacamAutocsvPath, aFile)).then(
-        lastLine => {
-            console.log({ file: aFile, data: lastLine });
-        },
-        err => {
-            alert(err);
-        }
-    );
-};
