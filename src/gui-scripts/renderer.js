@@ -20,29 +20,12 @@ ipcRenderer.on("download-progress", (event, text) => {
     progressBar.style.width = `${text}%`;
 });
 
+const {
+    pentacamAutocsvPath,
+    filesToAnalyze,
+    isAnalyzable
+} = require("../modules/watch");
 const { getFiles, getLastLine } = require("../modules/files");
-
-/**
- * Used in Keratoconus REST API
- */
-const filesToAnalyze = [
-    "ZERNIKE-WFA.CSV",
-    "ZERNIKE-ELE.CSV",
-    "SUMMARY-LOAD.CSV",
-    "PACHY-LOAD.CSV",
-    "KEIO-LOAD.CSV",
-    "INDEX-LOAD.CSV",
-    "Fourier-LOAD.CSV",
-    "EccSag-LOAD.CSV",
-    "COR-PWR-LOAD.CSV",
-    "CorneoScleral-LOAD.CSV",
-    "CHAMBER-LOAD.CSV",
-    "BADisplay-LOAD.CSV",
-    "AXLScan_Result-LOAD.CSV"
-];
-
-// TODO: validate that folder contains appropiate filesToAnalyze
-const pentacamAutocsvPath = "/home/diana/code/electrocornea/files";
 
 document.getElementById("form-input").value = pentacamAutocsvPath;
 let fileIndex = 0; // TODO: just for simulation, remove this when watcher appears
@@ -55,12 +38,16 @@ select("#form").addEventListener("submit", evt => {
 
     const aFile = getFiles(input.value)[fileIndex];
     fileIndex++;
+    processFile(aFile);
+});
 
+const processFile = aFile => {
     console.log("Leyendo..", aFile);
-    if (!filesToAnalyze.includes(aFile)) {
+    if (!isAnalyzable(aFile)) {
         return;
     }
 
+    console.log("Enviando request...");
     getLastLine(path.join(pentacamAutocsvPath, aFile)).then(
         lastLine => {
             console.log({ file: aFile, data: lastLine });
@@ -69,4 +56,4 @@ select("#form").addEventListener("submit", evt => {
             alert(err);
         }
     );
-});
+};
