@@ -19,13 +19,16 @@ ipcRenderer.on("version", (event, text) => {
 ipcRenderer.on("download-progress", (event, text) => {
     progressBar.style.width = `${text}%`;
 });
-
+const { getFiles, getLastLine, addTexToFile } = require("../modules/files");
 const {
     pentacamAutocsvPath,
     filesToAnalyze,
     isAnalyzable
 } = require("../modules/watch");
-const { getFiles, getLastLine } = require("../modules/files");
+
+select("#addFile").addEventListener("click", evt => {
+    addTexToFile(path.join(pentacamAutocsvPath, "INDEX-LOAD.CSV"), "HOLLAS");
+});
 
 document.getElementById("form-input").value = pentacamAutocsvPath;
 let fileIndex = 0; // TODO: just for simulation, remove this when watcher appears

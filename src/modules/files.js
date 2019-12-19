@@ -29,7 +29,15 @@ const getFiles = folder_path => {
     return fs.readdirSync(folder_path);
 };
 
+const addTexToFile = (path, text) => {
+    var stream = fs.createWriteStream(path, { flags: "a" });
+    stream.on("open", () => {
+        stream.write(text);
+    });
+};
+
 module.exports = {
     getLastLine: getLastLine,
-    getFiles: getFiles
+    getFiles: getFiles,
+    addTexToFile
 };
