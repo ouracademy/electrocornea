@@ -21,21 +21,10 @@ ipcRenderer.on("download-progress", (event, text) => {
 });
 const { getFiles, addTexToFile } = require("../modules/files");
 const { pentacamAutocsvPath, processFile } = require("../modules/watch");
+const path = require("path");
 
 select("#addFile").addEventListener("click", evt => {
     addTexToFile(path.join(pentacamAutocsvPath, "INDEX-LOAD.CSV"), "\nHOLLAS");
 });
 
 document.getElementById("form-input").value = pentacamAutocsvPath;
-let fileIndex = 0; // TODO: just for simulation, remove this when watcher appears
-
-const path = require("path");
-
-select("#form").addEventListener("submit", evt => {
-    evt.preventDefault();
-    const input = evt.target[0];
-
-    const aFile = getFiles(input.value)[fileIndex];
-    fileIndex++;
-    processFile(path.join(pentacamAutocsvPath, aFile));
-});
