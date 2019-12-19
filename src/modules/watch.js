@@ -39,8 +39,14 @@ const processFile = aFilePath => {
     });
 };
 
+const url = "http://127.0.0.1:8000/add_line";
+const axios = require("axios").default;
+
 const sendRequest = aFileName => lastLine => {
-    console.log({ file: aFileName, data: lastLine });
+    axios
+        .post(url, { file: aFileName, data: lastLine })
+        .then(response => console.log("Success:", response))
+        .catch(error => console.error("Error:", error));
 };
 
 const startWatch = () => {
