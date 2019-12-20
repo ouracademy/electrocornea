@@ -20,6 +20,14 @@ ipcRenderer.on("download-progress", (event, text) => {
   progressBar.style.width = `${text}%`;
 });
 
-const { pentacamAutocsvPath } = require("../modules/watch");
+const { pentacamAutocsvPath, store } = require("../modules/watch");
 
-document.getElementById("form-input").value = pentacamAutocsvPath;
+let folderInput = document.getElementById("form-input");
+folderInput.value = pentacamAutocsvPath;
+
+select("#form").addEventListener("submit", evt => {
+  evt.preventDefault();
+
+  store.set("pentacamAutocsvPath", folderInput.value);
+  alert("Ruta AutoCSV cambiada");
+});
