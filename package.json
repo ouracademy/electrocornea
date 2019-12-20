@@ -1,6 +1,6 @@
 {
   "name": "electrocornea",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "ElectroCornea desktop client",
   "main": "src/core/main.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "url": "git+https://github.com/ouracademy/electrocornea.git"
   },
   "devDependencies": {
-    "electron": "^7.1.5",
+    "electron": "7.1.2",
     "electron-builder": "^21.2.0",
     "prettier": "1.19.1"
   },
