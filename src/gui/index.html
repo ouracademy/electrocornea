@@ -1,52 +1,51 @@
 <!DOCTYPE html>
 <html>
-    <title>ElectroCornea</title>
-    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
-    <meta
-        http-equiv="Content-Security-Policy"
-        content="script-src 'self' 'unsafe-inline';"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <title>ElectroCornea</title>
+  <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="script-src 'self' 'unsafe-inline';"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
 
-    <body>
-        <div class="w3-container">
-            <h1 style="color:blueviolet">ElectroCornea</h1>
-            <h3>
-                Un sistema que distingue entre Ojos Normales de ojos con
-                Queratocono (Frustro, Temprano, Subclinico)
-            </h3>
+  <body>
+    <div class="w3-container">
+      <h1 style="color:blueviolet">ElectroCornea</h1>
+      <h3>
+        Un sistema que distingue entre Ojos Normales de ojos con Queratocono
+        (Frustro, Temprano, Subclinico)
+      </h3>
 
-            <p>Version actual: <span id="version"></span></p>
+      <p>Version actual: <span id="version"></span></p>
 
-            <div id="messages" style="color:cyan"></div>
+      <div id="messages" style="color:cyan"></div>
 
-            <div class="w3-light-grey">
-                <div
-                    class="w3-blue"
-                    style="height:24px;width:0%"
-                    id="progressBar"
-                ></div>
-            </div>
-            <button id="addFile">Agregar texto a file</button>
+      <div class="w3-light-grey">
+        <div
+          class="w3-blue"
+          style="height:24px;width:0%"
+          id="progressBar"
+        ></div>
+      </div>
 
-            <form id="form">
-                <div class="form-group">
-                    <label class="form-label">Ruta de archivo: </label>
-                    <input
-                        class="form-input"
-                        type="text"
-                        name="add-input"
-                        placeholder="Ruta del archivo"
-                        id="form-input"
-                    />
-                </div>
-
-                <button class="btn">Guardar carpeta</button>
-            </form>
+      <form id="form">
+        <div class="form-group">
+          <label class="form-label">Ruta de archivo: </label>
+          <input
+            class="form-input"
+            type="text"
+            name="add-input"
+            placeholder="Ruta del archivo"
+            id="form-input"
+          />
         </div>
-        <script>
-            require("../gui-scripts/renderer");
-        </script>
-    </body>
+
+        <button class="btn">Guardar carpeta</button>
+      </form>
+    </div>
+    <script>
+      require("../gui-scripts/renderer");
+    </script>
+  </body>
 </html>
