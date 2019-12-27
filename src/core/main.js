@@ -47,7 +47,7 @@ autoUpdater.on("checking-for-update", () => {
 });
 
 autoUpdater.on("update-available", info => {
-    dispatch("Update available.");
+    dispatch("Update available. Download will start");
 });
 
 autoUpdater.on("update-not-available", info => {
@@ -63,11 +63,12 @@ autoUpdater.on("download-progress", progressObj => {
     // log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
     // log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')'
     // dispatch(log_message)
+    dispatch("Update available. Download started");
     win.webContents.send("download-progress", progressObj.percent);
 });
 
 autoUpdater.on("update-downloaded", info => {
-    dispatch("Update downloaded");
+    dispatch("Update downloaded, please close and open this application to update it");
 });
 
 const { startWatch } = require("../modules/watch");
