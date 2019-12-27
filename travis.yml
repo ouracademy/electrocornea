@@ -1,0 +1,11 @@
+os: windows
+cache:
+  directories:
+    - node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
+
+script: yarn release
+branches:
+  except:
+    - "/^v\\d+\\.\\d+\\.\\d+$/"
