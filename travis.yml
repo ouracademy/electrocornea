@@ -6,6 +6,3 @@ cache:
     - $HOME/.cache/electron-builder
 
 script: yarn release
-branches:
-  except:
-    - "/^v\\d+\\.\\d+\\.\\d+$/"
