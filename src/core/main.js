@@ -20,9 +20,9 @@ const createDefaultWindow = () => {
     });
 
     win.loadFile("src/gui/index.html");
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
-    win.on("closed", function(event) {
+    win.on("closed", function (event) {
         watcher.close().then(() => (event.returnValue = false));
     });
     return win;
