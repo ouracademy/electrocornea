@@ -1,5 +1,4 @@
 os: windows
 language: node_js
-cache:
-  yarn: true
-script: yarn release
+node_js: 8.12.0
+script: npm run release
