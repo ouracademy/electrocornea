@@ -1,6 +1,8 @@
 os: windows
 language: node_js
 node_js: 10.15.0
+env:
+  - YARN_GPG=no
 cache:
   yarn: true
 script: yarn release
