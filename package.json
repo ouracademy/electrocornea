@@ -1,6 +1,6 @@
 {
   "name": "electrocornea",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "ElectroCornea desktop client",
   "main": "src/core/main.js",
   "scripts": {
