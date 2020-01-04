@@ -47,7 +47,7 @@ const processFile = aFilePath => {
   });
 };
 
-const url = "https://keratoconus-api.herokuapp.com/line";
+const url = "https://keratoconus-exams.herokuapp.com/exams-file";
 const axios = require("axios").default;
 
 const sendRequest = aFileName => lastLine => {
