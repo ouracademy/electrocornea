@@ -53,13 +53,16 @@ const axios = require("axios").default;
 const sendRequest = aFileName => lastLine => {
   axios
     .post(url, { file: aFileName, data: lastLine })
-    .then(response => console.log("Success:", response))
+    .then(response => console.log("Success:", response.status, response.data))
     .catch(error => console.error("Error:", error));
 };
 
 const startWatch = () => {
   const watcher = chokidar.watch(
-    filesToAnalyze.map(x => path.join(pentacamAutocsvPath, x))
+    filesToAnalyze.map(x => path.join(pentacamAutocsvPath, x)),
+    {
+      awaitWriteFinish: true
+    }
   );
   watcher.on("change", path => {
     console.log(`File ${path} has been change`);
