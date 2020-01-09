@@ -31,3 +31,13 @@ select("#form").addEventListener("submit", evt => {
   store.set("pentacamAutocsvPath", folderInput.value);
   alert("Ruta AutoCSV cambiada");
 });
+
+let loggingUriInput = document.getElementById("logging-uri");
+loggingUriInput.value = store.get("loggingUriInput");
+
+select("#logging-uri-form").addEventListener("submit", evt => {
+  evt.preventDefault();
+
+  store.set("loggingUriInput", loggingUriInput.value);
+  alert("Ruta Logging URI form cambiada");
+});
