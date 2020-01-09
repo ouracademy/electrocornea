@@ -21,6 +21,7 @@ const filesToAnalyze = [
 ];
 
 const { store } = require("./store");
+const { logger } = require("./log");
 
 // TODO: validate that folder contains appropiate filesToAnalyze
 const pentacamAutocsvPath = store.get("pentacamAutocsvPath");
@@ -31,24 +32,29 @@ const { getLastLine } = require("./files");
 const processFile = aFilePath => {
   const aFileName = path.basename(aFilePath);
 
-  console.log("Leyendo..", aFileName);
+  logger.info(`Leyendo..${aFileName}`);
   if (!isAnalyzable(aFileName)) {
     return;
   }
-  console.log("Enviando request...");
-  getLastLine(aFilePath).then(sendRequest(aFileName), err => {
-    alert(err);
-  });
+
+  logger.info("Enviando request...");
+  getLastLine(aFilePath)
+    .then(sendRequest(aFileName))
+    .catch(err => logger.warn(err));
 };
 
-const url = "https://keratoconus-exams.herokuapp.com/exams-file";
+const url = "http://127.0.0.1:8000/exams-file";
 const axios = require("axios").default;
 
 const sendRequest = aFileName => lastLine => {
   axios
     .post(url, { file: aFileName, data: lastLine })
-    .then(response => console.log("Success:", response.status, response.data))
-    .catch(error => console.error("Error:", error));
+    .then(response =>
+      logger.info(
+        "Success:" + response.status + ", data:" + JSON.stringify(response.data)
+      )
+    )
+    .catch(error => logger.warn(JSON.stringify(error)));
 };
 
 const startWatch = () => {
@@ -59,7 +65,6 @@ const startWatch = () => {
     }
   );
   watcher.on("change", path => {
-    console.log(`File ${path} has been change`);
     processFile(path);
   });
   return watcher;

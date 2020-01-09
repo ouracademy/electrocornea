@@ -8,36 +8,38 @@ const Stream = require("stream");
  * getLastLine("/home/diana/code/electrocornea/files/SUMMARY.CSV").then(console.log)
  */
 const getLastLine = fileName => {
-    let inStream = fs.createReadStream(fileName);
-    let outStream = new Stream();
-    return new Promise((resolve, reject) => {
-        let rl = readline.createInterface(inStream, outStream);
-        let currentLine = "";
-        rl.on("line", function(line) {
-            currentLine = line;
-        });
-
-        inStream.on("end", function() {
-            resolve(currentLine);
-        });
-
-        rl.on("error", reject);
+  let inStream = fs.createReadStream(fileName);
+  let outStream = new Stream();
+  return new Promise((resolve, reject) => {
+    let rl = readline.createInterface(inStream, outStream);
+    let currentLine = "";
+    rl.on("line", function(line) {
+      currentLine = line;
     });
+
+    inStream.on("end", function() {
+      resolve(currentLine);
+    });
+
+    rl.on("error", function() {
+      reject("Error en " + currentLine);
+    });
+  });
 };
 
 const getFiles = folder_path => {
-    return fs.readdirSync(folder_path);
+  return fs.readdirSync(folder_path);
 };
 
 const addTexToFile = (path, text) => {
-    var stream = fs.createWriteStream(path, { flags: "a" });
-    stream.on("open", () => {
-        stream.write(text);
-    });
+  var stream = fs.createWriteStream(path, { flags: "a" });
+  stream.on("open", () => {
+    stream.write(text);
+  });
 };
 
 module.exports = {
-    getLastLine: getLastLine,
-    getFiles: getFiles,
-    addTexToFile
+  getLastLine: getLastLine,
+  getFiles: getFiles,
+  addTexToFile
 };
