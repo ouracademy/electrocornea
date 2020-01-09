@@ -20,7 +20,8 @@ ipcRenderer.on("download-progress", (event, text) => {
   progressBar.style.width = `${text}%`;
 });
 
-const { pentacamAutocsvPath, store } = require("../modules/watch");
+const { store } = require("../modules/store");
+const { pentacamAutocsvPath } = require("../modules/watch");
 const { logger, loggingUri } = require("../modules/log");
 
 let folderInput = document.getElementById("form-input");

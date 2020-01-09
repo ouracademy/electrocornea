@@ -20,13 +20,7 @@ const filesToAnalyze = [
   "AXLScan_Result-LOAD.CSV"
 ];
 
-const Store = require("electron-store");
-
-const store = new Store({
-  defaults: {
-    pentacamAutocsvPath: "pentacam-path"
-  }
-});
+const { store } = require("./store");
 
 // TODO: validate that folder contains appropiate filesToAnalyze
 const pentacamAutocsvPath = store.get("pentacamAutocsvPath");
