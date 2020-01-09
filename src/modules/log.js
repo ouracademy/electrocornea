@@ -5,11 +5,13 @@ const { store } = require("./store");
 const loggingUri = store.get("loggingUriInput");
 
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.MongoDB({
-      db: loggingUri
-    })
-  ]
+  transports: loggingUri
+    ? [
+        new winston.transports.MongoDB({
+          db: loggingUri
+        })
+      ]
+    : [new winston.transports.Console()]
 });
 
 module.exports = {
