@@ -21,6 +21,7 @@ ipcRenderer.on("download-progress", (event, text) => {
 });
 
 const { pentacamAutocsvPath, store } = require("../modules/watch");
+const { logger, loggingUri } = require("../modules/log");
 
 let folderInput = document.getElementById("form-input");
 folderInput.value = pentacamAutocsvPath;
@@ -30,14 +31,14 @@ select("#form").addEventListener("submit", evt => {
 
   store.set("pentacamAutocsvPath", folderInput.value);
   alert("Ruta AutoCSV cambiada");
+  logger.info(`Ruta AutoCSV cambiada a ${folderInput.value}`);
 });
 
 let loggingUriInput = document.getElementById("logging-uri");
-loggingUriInput.value = store.get("loggingUriInput");
+loggingUriInput.value = loggingUri;
 
 select("#logging-uri-form").addEventListener("submit", evt => {
   evt.preventDefault();
-
   store.set("loggingUriInput", loggingUriInput.value);
-  alert("Ruta Logging URI form cambiada");
+  alert("Logging URI cambiada");
 });
