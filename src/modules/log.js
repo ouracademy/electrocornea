@@ -14,9 +14,9 @@ const logger = winston.createLogger({
         //   ]
         // : [new winston.transports.Console()]
         [
-            // new winston.transports.File({
-            //     filename: "keratoconus-cornea.log"
-            // }),
+            new winston.transports.File({
+                filename: "keratoconus-cornea.log"
+            }),
             new winston.transports.Http({
                 ssl: true,
                 host: "keratoconus-exams.herokuapp.com",
