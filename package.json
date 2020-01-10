@@ -4,11 +4,12 @@
     "description": "ElectroCornea desktop client",
     "main": "src/core/main.js",
     "scripts": {
-        "start": "electron .",
+        "start": "yarn preprocess && electron .",
         "pack": "electron-builder --dir",
         "dist": "electron-builder",
         "postinstall": "electron-builder install-app-deps",
-        "release": "electron-builder build"
+        "release": "electron-builder build",
+        "preprocess": "npx tailwind build src/gui/styles.css -o src/gui/preprocessed.css"
     },
     "repository": {
         "type": "git",
@@ -44,6 +45,7 @@
         "csv-parser": "^2.3.2",
         "electron-store": "^5.1.0",
         "electron-updater": "^4.2.0",
+        "tailwindcss": "^1.1.4",
         "winston": "^3.2.1",
         "winston-mongodb": "^5.0.1"
     }

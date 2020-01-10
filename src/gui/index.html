@@ -7,19 +7,19 @@
     content="script-src 'self' 'unsafe-inline';"
   />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link href="preprocessed.css" rel="stylesheet" />
 
   <body>
-    <div class="w3-container">
-      <h1 style="color:blueviolet">ElectroCornea</h1>
-      <h3>
+    <div class="container p-4">
+      <h1 class="text-6xl text-purple-700">
+        ElectroCornea <span class="text-sm text-gray-700" id="version"></span>
+      </h1>
+
+      <h3 class="text-xl text-gray-700">
         Un sistema que distingue entre Ojos Normales de ojos con Queratocono
         (Frustro, Temprano, Subclinico)
       </h3>
-
-      <p>Version actual: <span id="version"></span></p>
-
-      <div id="messages" style="color:cyan"></div>
+      <div id="messages" class="text-indigo-800"></div>
 
       <div class="w3-light-grey">
         <div
@@ -31,25 +31,19 @@
 
       <form id="form">
         <div class="form-group">
-          <label class="form-label">Ruta de archivo: </label>
-          <input
-            class="form-input"
-            type="text"
-            name="add-input"
-            placeholder="Ruta del archivo"
-            id="form-input"
-          />
+          <label>Ruta de archivos del Pentacam: </label>
+          <input type="text" placeholder="Ruta del archivo" id="form-input" />
         </div>
-
-        <button class="btn">Guardar</button>
+        <button class="btn btn-primary">
+          Guardar
+        </button>
       </form>
       <form id="logging-uri-form">
         <div class="form-group">
-          <label class="form-label">Logging URI:</label>
-          <input class="form-input" type="password" id="logging-uri" />
+          <label>Logging URI:</label>
+          <input type="password" id="logging-uri" />
         </div>
-
-        <button class="btn">Guardar</button>
+        <button class="btn btn-primary">Guardar</button>
       </form>
     </div>
     <script>

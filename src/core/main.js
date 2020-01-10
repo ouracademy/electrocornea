@@ -33,7 +33,7 @@ app.on("ready", () => {
   autoUpdater.checkForUpdatesAndNotify();
 
   win.webContents.on("did-finish-load", () => {
-    win.webContents.send("version", app.getVersion());
+    win.webContents.send("version", "v" + app.getVersion());
   });
 });
 

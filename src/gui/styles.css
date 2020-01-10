@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+
+.btn {
+  @apply font-bold rounded py-2 px-4;
+}
+.btn-primary {
+  @apply bg-gray-700 text-white;
+}
+.btn-primary:hover {
+  @apply bg-gray-800;
+}
+
+form input {
+  @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  @apply mb-4;
+}
+
+form > :first-child {
+  @apply w-3/4;
+}
+
+@tailwind utilities;
