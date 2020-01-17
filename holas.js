@@ -1,25 +1,98 @@
 const { job } = require("cron");
-const each_10_minutes = f => job("*/10 * * * *", f, null, true);
+const each10Minutes = f => job("*/3 * * * * *", f, null, true);
 
-const linea_actual_por_archivo = {
-  "summary-load.csv": 0,
-  "keio-load.csv": 0
+const currentLinesByFile = {
+  "ZERNIKE-WFA.CSV": 0,
+  "ZERNIKE-ELE.CSV": 0,
+  "SUMMARY-LOAD.CSV": 0,
+  "PACHY-LOAD.CSV": 0,
+  "KEIO-LOAD.CSV": 0,
+  "INDEX-LOAD.CSV": 0,
+  "Fourier-LOAD.CSV": 0,
+  "EccSag-LOAD.CSV": 0,
+  "COR-PWR-LOAD.CSV": 0,
+  "CorneoScleral-LOAD.CSV": 0,
+  "CHAMBER-LOAD.CSV": 0,
+  "BADisplay-LOAD.CSV": 0,
+  "AXLScan_Result-LOAD.CSV": 0
 };
 
-const get_file_lines_number = file_name => 0; // TODO: implement
-const exist_new_data = file_name =>
-  linea_actual_por_archivo[file_name] !== get_file_lines_number(file_name);
+const fs = require("fs");
 
-const update_lines_file = (archivo, size) =>
-  (linea_actual_por_archivo[archivo] = size);
+const getFileLinesNumber = filePath =>
+  // https://stackoverflow.com/questions/12453057/node-js-count-the-number-of-lines-in-a-file
+  new Promise((resolve, reject) => {
+    let lineCount = 1;
+    fs.createReadStream(filePath)
+      .on("data", buffer => {
+        let idx = -1;
+        lineCount--; // Because the loop will run once for idx=-1
+        do {
+          idx = buffer.indexOf(10, idx + 1);
+          lineCount++;
+        } while (idx !== -1);
+      })
+      .on("end", () => {
+        resolve(lineCount);
+      })
+      .on("error", reject);
+  });
 
-const get_files_from = dir => []; //TODO: implement
+const { basename } = require("path");
 
-each_10_minutes(() => {
-  for (let [file, size] of Object.entries(linea_actual_por_archivo)) {
-    if (exist_new_data(file)) {
-      leer_lineas((since = number_lines), (path = archivo));
-      update_lines_file();
-    }
+const existNewData = (currentLinesByFile, filePath) =>
+  getFileLinesNumber(filePath).then(
+    x => currentLinesByFile[basename(filePath)] !== x
+  );
+
+const { sliceFile } = require("./art");
+
+const getNextLine = async (lineNumber, filePath) => {
+  const nextLineNumber = lineNumber + 1;
+  const lines = await sliceFile(filePath, lineNumber, nextLineNumber);
+  return { nextLineNumber, line: lines[0] };
+};
+
+const synchronizeFilesWithServer = async () => {
+  for (let file of Object.keys(currentLinesByFile)) {
+    await synchronizeFileWithServer(file);
+  }
+};
+
+const pentacamPath = "/home/artmadeit/Escritorio/Pentacam.AutoCSV";
+const { join } = require("path");
+
+const synchronizeFileWithServer = async fileName => {
+  const filePath = join(pentacamPath, fileName);
+
+  const fileLines = await getFileLinesNumber(filePath);
+  // const existNewData_ = // await existNewData(currentLinesByFile, filePath);
+
+  while (currentLinesByFile[fileName] <= fileLines) {
+    const { nextLineNumber, line } = await getNextLine(
+      currentLinesByFile[fileName],
+      filePath
+    );
+    // await sendRequest(file)(line);
+    currentLinesByFile[fileName] = nextLineNumber;
+  }
+};
+
+let isRunning = false;
+each10Minutes(() => {
+  console.log("Tick", new Date(), ", isRunning: ", isRunning);
+  console.log(currentLinesByFile);
+
+  if (!isRunning) {
+    isRunning = true;
+    synchronizeFilesWithServer().then(() => {
+      isRunning = false;
+    });
   }
 });
+
+module.exports = {
+  getFileLinesNumber,
+  sliceFile,
+  existNewData
+};
