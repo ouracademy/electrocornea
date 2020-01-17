@@ -1,6 +1,5 @@
 const slice = require("slice-file");
 
-// aca tbn podemos mandar asi: -10
 const sliceFile = (filePath, start, end) =>
   streamToString(slice(filePath).slice(start, end));
 

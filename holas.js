@@ -45,7 +45,7 @@ const existNewData = (currentLinesByFile, filePath) =>
     x => currentLinesByFile[basename(filePath)] !== x
   );
 
-const { sliceFile } = require("./art");
+const { sliceFile } = require("./slice-file");
 
 const getNextLine = async (lineNumber, filePath) => {
   const nextLineNumber = lineNumber + 1;

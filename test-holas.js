@@ -1,7 +1,7 @@
 const test = require("ava");
 
 const { getFileLinesNumber, existNewData } = require("./holas");
-const { sliceFile, getLastLinesFiles } = require("./art");
+const { sliceFile, getLastLinesFiles } = require("./slice-file");
 
 test("getFileLinesNumber", t => {
   return getFileLinesNumber("test-data.csv").then(x => t.is(4, x));
