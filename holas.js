@@ -68,6 +68,15 @@ const synchronizeFileWithServer = async fileName => {
   const fileLines = await getFileLinesNumber(filePath);
   // const existNewData_ = // await existNewData(currentLinesByFile, filePath);
 
+  // FIXME: can cause problems <=
+  // ZERNIKE-WFA.CSV (the dictionary runs until line 10790)
+  // when it only contains 10789, also note that the
+  // last line (10789) is an empty line.
+  // Example: the file looks like this
+  // 10787 Llamoga Guevara ;Geraldine;
+  // 10788 Llamoga Guevara ;Geraldine;
+  // 10789
+  //
   while (currentLinesByFile[fileName] <= fileLines) {
     const { nextLineNumber, line } = await getNextLine(
       currentLinesByFile[fileName],
