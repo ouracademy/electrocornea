@@ -2,6 +2,7 @@ const { app, BrowserWindow } = require("electron");
 const { autoUpdater } = require("electron-updater");
 
 let win;
+let cron;
 
 const dispatch = data => {
   win.webContents.send("message", data);
@@ -15,15 +16,22 @@ const createDefaultWindow = () => {
   });
 
   win.on("closed", () => {
+    console.log(cron);
     win = null;
   });
 
   win.loadFile("src/gui/index.html");
   // win.webContents.openDevTools();
 
-  win.on("closed", function(event) {
-    watcher.close().then(() => (event.returnValue = false));
+  win.on("close", function(event) {
+    console.log("estoy cerrando");
+    console.log({ antesStop: cron.running });
+    cron.stop();
+    console.log({ luegoStop: cron.running });
+    cron = null;
+    event.returnValue = false;
   });
+
   return win;
 };
 
@@ -72,5 +80,11 @@ autoUpdater.on("update-downloaded", info => {
   );
 });
 
-const { startWatch } = require("../modules/watch");
-watcher = startWatch();
+const {
+  cronSynchronizeFiles
+} = require("../modules/synchronize-files/synchronize-files");
+
+cron = cronSynchronizeFiles();
+cron.start();
+
+console.log({ algooooo: cron.running });
