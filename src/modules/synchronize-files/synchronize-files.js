@@ -34,6 +34,7 @@ const EventEmitter = require("events");
 
 class FileSynchronizer extends EventEmitter {
   isRunning = false;
+  stopExecution = false;
 
   async run() {
     this.isRunning = true;
@@ -49,35 +50,38 @@ class FileSynchronizer extends EventEmitter {
     const filePath = join(pentacamPath, fileName);
 
     while (await existNewData(currentLinesByFile, filePath)) {
+      if (this.stopExecution) {
+        this.isRunning = false;
+        this.emit("stopped");
+        break;
+      }
+
       const { nextLineNumber, line } = await getNextLine(
         currentLinesByFile[fileName],
         filePath
       );
       // await sendRequest(file)(line);
       currentLinesByFile[fileName] = nextLineNumber;
-
-      this.emit("taskFinished");
     }
+  }
+
+  stop() {
+    this.stopExecution = true;
   }
 }
 
-const cronSynchronizeFiles = () => {
-  const fileSynchronizer = new FileSynchronizer();
-  return each10Minutes(() => {
-    console.log(
-      "Tick",
-      new Date(),
-      ", isRunning: ",
-      fileSynchronizer.isRunning
-    );
+const cronLongProcess = aProcess =>
+  each10Minutes(() => {
+    console.log("Tick", new Date(), ", isRunning: ", aProcess.isRunning);
     console.log(currentLinesByFile);
 
-    if (!fileSynchronizer.isRunning) {
-      fileSynchronizer.run();
+    if (!aProcess.isRunning) {
+      aProcess.run();
     }
   });
-};
 
 module.exports = {
-  cronSynchronizeFiles
+  cronLongProcess,
+  FileSynchronizer,
+  currentLinesByFile
 };

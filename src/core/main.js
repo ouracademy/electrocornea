@@ -27,53 +27,24 @@ const createDefaultWindow = () => {
 
   win.on("close", e => {
     console.log("cron");
-    // e.preventDefault();
-    // win.hide();
-
-    // fileSynchronizer.stop();
-
-    // console.log("despuesDeStop", cron);
-    // fileSynchronizer.on("stopped", () => {
-    //   console.log("on stopped", cron);
-    //   cron && cron.stop();
-    //   fileSynchronizer = null;
-    //   cron = null;
-    //   app.quit();
-    // });
 
     if (!willQuitApp) {
       e.preventDefault();
       win.hide();
 
-      setTimeout(() => {
-        console.log("After timeout");
+      fileSynchronizer.stop();
+      fileSynchronizer.on("stopped", () => {
+        cron.stop();
+
+        fileSynchronizer = null;
+        cron = null;
         willQuitApp = true;
         app.quit();
-      }, 7000);
+      });
+    } else {
+      console.log({ currentLinesByFile });
     }
   });
-
-  // win.onbeforeunload = e => {
-  //   console.log("I do not want to be closed");
-
-  //   // Unlike usual browsers that a message box will be prompted to users, returning
-  //   // a non-void value will silently cancel the close.
-  //   // It is recommended to use the dialog API to let the user confirm closing the
-  //   // application.
-  //   e.returnValue = false; // equivalent to `return false` but not recommended
-  //   // fileSynchronizer.stop();
-  //   // fileSynchronizer.on("stopped", () => {
-  //   //   cron.stop();
-  //   //   fileSynchronizer = null;
-  //   //   cron = null;
-  //   //   event.returnValue = true;
-  //   // });
-
-  //   // setTimeout(() => {
-  //   //   console.log("holas");
-  //   //   win.close();
-  //   // }, 5000);
-  // };
 
   return win;
 };
@@ -125,7 +96,8 @@ autoUpdater.on("update-downloaded", info => {
 
 const {
   cronLongProcess,
-  FileSynchronizer
+  FileSynchronizer,
+  currentLinesByFile
 } = require("../modules/synchronize-files/synchronize-files");
 
 fileSynchronizer = new FileSynchronizer();
