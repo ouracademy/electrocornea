@@ -41,9 +41,22 @@ const getFileLinesNumber = filePath =>
 const { basename } = require("path");
 
 const existNewData = (currentLinesByFile, filePath) =>
-  getFileLinesNumber(filePath).then(
-    x => currentLinesByFile[basename(filePath)] !== x
-  );
+  getFileLinesNumber(filePath).then(x => {
+    const fileLines = x - 1; // -1 because Oculus adds always an empty line
+    // Example: the file ZERNIKE-WFA.CSV looks like this
+    // 10787 Llamoga Guevara ;Geraldine;
+    // 10788 Llamoga Guevara ;Geraldine;
+    // 10789
+    // The dictionary must run until line 10788
+    // because the last line (10789) is an empty line.
+
+    const headerLength = 1;
+    if (fileLines <= headerLength) {
+      return false;
+    }
+
+    return currentLinesByFile[basename(filePath)] < fileLines;
+  });
 
 const { sliceFile } = require("./slice-file");
 
@@ -65,19 +78,7 @@ const { join } = require("path");
 const synchronizeFileWithServer = async fileName => {
   const filePath = join(pentacamPath, fileName);
 
-  const fileLines = await getFileLinesNumber(filePath);
-  // const existNewData_ = // await existNewData(currentLinesByFile, filePath);
-
-  // FIXME: can cause problems <=
-  // ZERNIKE-WFA.CSV (the dictionary runs until line 10790)
-  // when it only contains 10789, also note that the
-  // last line (10789) is an empty line.
-  // Example: the file looks like this
-  // 10787 Llamoga Guevara ;Geraldine;
-  // 10788 Llamoga Guevara ;Geraldine;
-  // 10789
-  //
-  while (currentLinesByFile[fileName] <= fileLines) {
+  while (await existNewData(currentLinesByFile, filePath)) {
     const { nextLineNumber, line } = await getNextLine(
       currentLinesByFile[fileName],
       filePath

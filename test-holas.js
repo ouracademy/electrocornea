@@ -13,10 +13,25 @@ test("sliceFile", t => {
   );
 });
 
-test("existNewData", t => {
-  return existNewData({ "test-data.csv": 2 }, "test-data.csv").then(x =>
-    t.true(x)
-  );
+test("existNewData() on exist new data", t => {
+  return existNewData(
+    { "new_data_basic_flow.csv": 2 },
+    "test_data/new_data_basic_flow.csv"
+  ).then(x => t.true(x));
+});
+
+test("existNewData() on not new data", t => {
+  return existNewData(
+    { "new_data_basic_flow.csv": 3 },
+    "test_data/new_data_basic_flow.csv"
+  ).then(x => t.false(x));
+});
+
+test("existNewData() on empty header", t => {
+  return existNewData(
+    { "new_data_empty.csv": 0 },
+    "test_data/new_data_empty.csv"
+  ).then(x => t.false(x));
 });
 
 // test("getLastLines", t => {
