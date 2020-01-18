@@ -1,5 +1,5 @@
 const test = require("ava");
-const { getFileLinesNumber, existNewData } = require("./holas");
+const { getFileLinesNumber, existNewData } = require("./synchronize-files");
 
 test("getFileLinesNumber", t => {
   return getFileLinesNumber("test-data.csv").then(x => t.is(4, x));
