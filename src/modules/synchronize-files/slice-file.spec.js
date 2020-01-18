@@ -1,8 +1,9 @@
 const test = require("ava");
 const { sliceFile, getLastLinesFiles } = require("./slice-file");
+const { relativePath: _ } = require("./relative-path");
 
 test("sliceFile", t => {
-  return sliceFile("test-data.csv", 1, 2).then(x =>
+  return sliceFile(_("test-data.csv"), 1, 2).then(x =>
     t.deepEqual(x, ["arthur,mauricio\n"])
   );
 });

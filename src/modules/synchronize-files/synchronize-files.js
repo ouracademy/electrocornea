@@ -19,7 +19,7 @@ const currentLinesByFile = {
   "AXLScan_Result-LOAD.CSV": 0
 };
 
-const { sliceFile } = require("../slice-file");
+const { sliceFile } = require("./slice-file");
 
 const getNextLine = async (lineNumber, filePath) => {
   const nextLineNumber = lineNumber + 1;
