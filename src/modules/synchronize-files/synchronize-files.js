@@ -1,7 +1,7 @@
 const { existNewData } = require("./exist-new-data");
 
-const { job } = require("cron");
-const each10Minutes = f => job("*/3 * * * * *", f, null, true);
+const { CronJob } = require("cron");
+const each10Minutes = f => new CronJob("*/3 * * * * *", f);
 
 const currentLinesByFile = {
   "ZERNIKE-WFA.CSV": 0,
@@ -27,39 +27,57 @@ const getNextLine = async (lineNumber, filePath) => {
   return { nextLineNumber, line: lines[0] };
 };
 
-const synchronizeFilesWithServer = async () => {
-  for (let file of Object.keys(currentLinesByFile)) {
-    await synchronizeFileWithServer(file);
-  }
-};
-
 const pentacamPath = "/home/artmadeit/Escritorio/Pentacam.AutoCSV";
 const { join } = require("path");
 
-const synchronizeFileWithServer = async fileName => {
-  const filePath = join(pentacamPath, fileName);
+const EventEmitter = require("events");
 
-  while (await existNewData(currentLinesByFile, filePath)) {
-    const { nextLineNumber, line } = await getNextLine(
-      currentLinesByFile[fileName],
-      filePath
-    );
-    // await sendRequest(file)(line);
-    currentLinesByFile[fileName] = nextLineNumber;
+class FileSynchronizer extends EventEmitter {
+  isRunning = false;
+
+  async run() {
+    this.isRunning = true;
+
+    for (let file of Object.keys(currentLinesByFile)) {
+      await this.synchronizeFileWithServer(file);
+    }
+
+    this.isRunning = false;
   }
+
+  async synchronizeFileWithServer(fileName) {
+    const filePath = join(pentacamPath, fileName);
+
+    while (await existNewData(currentLinesByFile, filePath)) {
+      const { nextLineNumber, line } = await getNextLine(
+        currentLinesByFile[fileName],
+        filePath
+      );
+      // await sendRequest(file)(line);
+      currentLinesByFile[fileName] = nextLineNumber;
+
+      this.emit("taskFinished");
+    }
+  }
+}
+
+const cronSynchronizeFiles = () => {
+  const fileSynchronizer = new FileSynchronizer();
+  return each10Minutes(() => {
+    console.log(
+      "Tick",
+      new Date(),
+      ", isRunning: ",
+      fileSynchronizer.isRunning
+    );
+    console.log(currentLinesByFile);
+
+    if (!fileSynchronizer.isRunning) {
+      fileSynchronizer.run();
+    }
+  });
 };
 
-let isRunning = false;
-each10Minutes(() => {
-  console.log("Tick", new Date(), ", isRunning: ", isRunning);
-  console.log(currentLinesByFile);
-
-  if (!isRunning) {
-    isRunning = true;
-    synchronizeFilesWithServer().then(() => {
-      isRunning = false;
-    });
-  }
-});
-
-module.exports = {};
+module.exports = {
+  cronSynchronizeFiles
+};
