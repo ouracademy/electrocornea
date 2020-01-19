@@ -1,5 +1,7 @@
 const { existNewData } = require("./exist-new-data");
 const { store } = require("../store");
+const { sendRequest } = require("../send-request");
+const { logger } = require("../log");
 
 const { CronJob } = require("cron");
 const each10Minutes = f => new CronJob("*/3 * * * * *", f);
@@ -27,7 +29,6 @@ const pentacamPath =
     store.get("pentacamAutocsvPath") ||
     "/home/artmadeit/Escritorio/Pentacam.AutoCSV";
 
-console.log(pentacamPath);
 const { join } = require("path");
 
 const EventEmitter = require("events");
@@ -56,12 +57,22 @@ class FileSynchronizer extends EventEmitter {
                 break;
             }
 
-            const { nextLineNumber, line } = await getNextLine(
-                getCurrentLinesByFile(fileName),
-                filePath
-            );
-            // await sendRequest(file)(line);
-            setCurrentLinesByFile(fileName, nextLineNumber);
+            try {
+                const { nextLineNumber, line } = await getNextLine(
+                    getCurrentLinesByFile(fileName),
+                    filePath
+                );
+                logger.info(
+                    JSON.stringify({
+                        lineNumber: nextLineNumber - 1,
+                        file: fileName
+                    })
+                );
+                await sendRequest(fileName)(line);
+                setCurrentLinesByFile(fileName, nextLineNumber);
+            } catch (e) {
+                logger.warning(e.stack);
+            }
         }
     }
 
@@ -72,8 +83,7 @@ class FileSynchronizer extends EventEmitter {
 
 const cronLongProcess = aProcess =>
     each10Minutes(() => {
-        console.log("Tick", new Date(), ", isRunning: ", aProcess.isRunning);
-        console.log(getCurrentLinesByFile());
+        logger.info(`Tick ${new Date()} isRunning ${aProcess.isRunning}`);
 
         if (!aProcess.isRunning) {
             aProcess.run();

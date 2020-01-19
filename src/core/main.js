@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const { store } = require("../modules/store");
+const { logger } = require("../modules/log");
 
 let win;
 let cron;
@@ -27,7 +28,7 @@ const createDefaultWindow = () => {
     // win.webContents.openDevTools();
 
     win.on("close", e => {
-        console.log("cron");
+        logger.info("init close app");
         if (!willQuitApp) {
             e.preventDefault();
             win.hide();
@@ -42,7 +43,7 @@ const createDefaultWindow = () => {
                 app.quit();
             });
         } else {
-            console.log(store.get("currentLinesByFile"));
+            logger.info("close app");
         }
     });
 
@@ -103,4 +104,6 @@ fileSynchronizer = new FileSynchronizer();
 cron = cronLongProcess(fileSynchronizer);
 cron.start();
 
-console.log({ algooooo: cron.running });
+logger.info("running cron " + cron.running);
+
+// console.log(app.getPath("userData"));
