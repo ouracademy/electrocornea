@@ -1,19 +1,19 @@
 const Store = require("electron-store");
 
 const currentLinesByFile = {
-    "ZERNIKE-WFA.CSV": 0,
-    "ZERNIKE-ELE.CSV": 0,
-    "SUMMARY-LOAD.CSV": 0,
-    "PACHY-LOAD.CSV": 0,
-    "KEIO-LOAD.CSV": 0,
-    "INDEX-LOAD.CSV": 0,
-    "Fourier-LOAD.CSV": 0,
-    "EccSag-LOAD.CSV": 0,
-    "COR-PWR-LOAD.CSV": 0,
-    "CorneoScleral-LOAD.CSV": 0,
-    "CHAMBER-LOAD.CSV": 0,
-    "BADisplay-LOAD.CSV": 0,
-    "AXLScan_Result-LOAD.CSV": 0
+    "ZERNIKE-WFA.CSV": 1,
+    "ZERNIKE-ELE.CSV": 1,
+    "SUMMARY-LOAD.CSV": 1,
+    "PACHY-LOAD.CSV": 1,
+    "KEIO-LOAD.CSV": 1,
+    "INDEX-LOAD.CSV": 1,
+    "Fourier-LOAD.CSV": 1,
+    "EccSag-LOAD.CSV": 1,
+    "COR-PWR-LOAD.CSV": 1,
+    "CorneoScleral-LOAD.CSV": 1,
+    "CHAMBER-LOAD.CSV": 1,
+    "BADisplay-LOAD.CSV": 1,
+    "AXLScan_Result-LOAD.CSV": 1
 };
 
 const store = new Store({
