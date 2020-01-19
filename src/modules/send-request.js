@@ -3,7 +3,7 @@ const { logger } = require("./log");
 const url = "https://keratoconus-exams.herokuapp.com/exams-file";
 const axios = require("axios").default;
 
-const sendRequest = aFileName => lastLine => {
+const sendRequest = aFileName => lastLine =>
     axios
         .post(url, { file: aFileName, data: lastLine })
         .then(response =>
@@ -15,6 +15,5 @@ const sendRequest = aFileName => lastLine => {
             )
         )
         .catch(error => logger.warn(JSON.stringify(error)));
-};
 
 exports.sendRequest = sendRequest;
