@@ -29,22 +29,22 @@ const createDefaultWindow = () => {
 
     win.on("close", e => {
         logger.info("init close app");
-        if (!willQuitApp) {
-            e.preventDefault();
-            win.hide();
+        // if (!willQuitApp) {
+        //     e.preventDefault();
+        //     win.hide();
 
-            fileSynchronizer.stop();
-            fileSynchronizer.on("stopped", () => {
-                cron.stop();
+        //     fileSynchronizer.stop();
+        //     fileSynchronizer.on("stopped", () => {
+        //         cron.stop();
 
-                fileSynchronizer = null;
-                cron = null;
-                willQuitApp = true;
-                app.quit();
-            });
-        } else {
-            logger.info("close app");
-        }
+        //         fileSynchronizer = null;
+        //         cron = null;
+        //         willQuitApp = true;
+        //         app.quit();
+        //     });
+        // } else {
+        //     logger.info("close app");
+        // }
     });
 
     return win;
@@ -95,15 +95,18 @@ autoUpdater.on("update-downloaded", info => {
     );
 });
 
-const {
-    cronLongProcess,
-    FileSynchronizer
-} = require("../modules/synchronize-files/synchronize-files");
+const { startWatch } = require("../modules/watch");
+watcher = startWatch();
 
-fileSynchronizer = new FileSynchronizer();
-cron = cronLongProcess(fileSynchronizer);
-cron.start();
+// const {
+//     cronLongProcess,
+//     FileSynchronizer
+// } = require("../modules/synchronize-files/synchronize-files");
 
-logger.info("running cron " + cron.running);
+// fileSynchronizer = new FileSynchronizer();
+// cron = cronLongProcess(fileSynchronizer);
+// cron.start();
 
-// console.log(app.getPath("userData"));
+// logger.info("running cron " + cron.running);
+
+// // console.log(app.getPath("userData"));
