@@ -4,7 +4,7 @@ const { relativePath: _ } = require("./relative-path");
 
 test("sliceFile", t => {
   return sliceFile(_("test-data.csv"), 1, 2).then(x =>
-    t.deepEqual(x, ["arthur,mauricio\n"])
+    t.deepEqual(x, ["Flores Zuñiga ,Elmer\n"])
   );
 });
 

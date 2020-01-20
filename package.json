@@ -4,7 +4,7 @@
     "description": "ElectroCornea desktop client",
     "main": "src/core/main.js",
     "scripts": {
-        "start": "yarn preprocess && electron .",
+        "start": "npm run preprocess && electron .",
         "pack": "electron-builder --dir",
         "dist": "electron-builder",
         "postinstall": "electron-builder install-app-deps",
@@ -48,6 +48,7 @@
         "csv-parser": "^2.3.2",
         "electron-store": "^5.1.0",
         "electron-updater": "^4.2.0",
+        "iconv": "^2.3.5",
         "slice-file": "^1.0.0",
         "tailwindcss": "^1.1.4",
         "winston": "^3.2.1",
