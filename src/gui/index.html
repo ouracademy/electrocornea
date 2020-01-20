@@ -1,53 +1,62 @@
 <!DOCTYPE html>
 <html>
-  <title>ElectroCornea</title>
-  <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
-  <meta
-    http-equiv="Content-Security-Policy"
-    content="script-src 'self' 'unsafe-inline';"
-  />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="preprocessed.css" rel="stylesheet" />
+    <title>ElectroCornea</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <meta
+        http-equiv="Content-Security-Policy"
+        content="script-src 'self' 'unsafe-inline';"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="preprocessed.css" rel="stylesheet" />
 
-  <body>
-    <div class="container p-4">
-      <h1 class="text-6xl text-purple-700">
-        ElectroCornea <span class="text-sm text-gray-700" id="version"></span>
-      </h1>
+    <body>
+        <div class="container p-4">
+            <h1 class="text-6xl text-purple-700">
+                ElectroCornea
+                <span class="text-sm text-gray-700" id="version"></span>
+            </h1>
 
-      <h3 class="text-xl text-gray-700">
-        Un sistema que distingue entre Ojos Normales de ojos con Queratocono
-        (Frustro, Temprano, Subclinico)
-      </h3>
-      <div id="messages" class="text-indigo-800"></div>
+            <h3 class="text-xl text-gray-700">
+                Un sistema que distingue entre Ojos Normales de ojos con
+                Queratocono (Frustro, Temprano, Subclinico)
+            </h3>
+            <div id="messages" class="text-indigo-800"></div>
 
-      <div class="w3-light-grey">
-        <div
-          class="w3-blue"
-          style="height:24px;width:0%"
-          id="progressBar"
-        ></div>
-      </div>
+            <div class="w3-light-grey">
+                <div
+                    class="w3-blue"
+                    style="height:24px;width:0%"
+                    id="progressBar"
+                ></div>
+            </div>
 
-      <form id="form">
-        <div class="form-group">
-          <label>Ruta de archivos del Pentacam: </label>
-          <input type="text" placeholder="Ruta del archivo" id="form-input" />
+            <form id="form">
+                <div class="form-group">
+                    <label>Ruta de archivos del Pentacam: </label>
+                    <input
+                        type="text"
+                        placeholder="Ruta del archivo"
+                        id="form-input"
+                    />
+                </div>
+                <button class="btn btn-primary">
+                    Guardar
+                </button>
+            </form>
+            <form id="logging-uri-form">
+                <div class="form-group">
+                    <label>Logging URI:</label>
+                    <input type="password" id="logging-uri" />
+                </div>
+                <button class="btn btn-primary">Guardar</button>
+            </form>
+
+            <!-- <form id="test-form">
+                <button class="btn btn-primary">Probar</button>
+            </form> -->
         </div>
-        <button class="btn btn-primary">
-          Guardar
-        </button>
-      </form>
-      <form id="logging-uri-form">
-        <div class="form-group">
-          <label>Logging URI:</label>
-          <input type="password" id="logging-uri" />
-        </div>
-        <button class="btn btn-primary">Guardar</button>
-      </form>
-    </div>
-    <script>
-      require("../gui-scripts/renderer");
-    </script>
-  </body>
+        <script>
+            require("../gui-scripts/renderer");
+        </script>
+    </body>
 </html>
