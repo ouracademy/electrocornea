@@ -1,6 +1,6 @@
 const { logger } = require("./log");
 
-const url = "http://127.0.0.1:8000/exams-file";
+const url = "https://keratoconus-exams.herokuapp.com/exams-file";
 const axios = require("axios").default;
 
 const sendRequest = aFileName => lastLine =>
