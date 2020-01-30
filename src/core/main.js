@@ -9,6 +9,9 @@ let fileSynchronizer;
 
 let willQuitApp = false;
 
+let watcher;
+let reportWatcher;
+
 const dispatch = data => {
     win.webContents.send("message", data);
 };
@@ -98,8 +101,8 @@ autoUpdater.on("update-downloaded", info => {
 const { startWatch } = require("../modules/watch");
 watcher = startWatch();
 
-// const { startWatch } = require("../modules/watch");
-// watcher = startWatch();
+const { startWatch: startWatchReport } = require("../modules/watch-report");
+reportWatcher = startWatchReport();
 
 // const {
 //     cronLongProcess,

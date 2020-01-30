@@ -1,10 +1,6 @@
 const chokidar = require("chokidar");
 const path = require("path");
 
-/**
- * Used in Keratoconus REST API
- */
-
 const { store } = require("./store");
 const { logger } = require("./log");
 
@@ -17,6 +13,7 @@ const b2 = new B2({
     applicationKeyId: "000e47ee7219c340000000001",
     applicationKey: "K00033x74HxDraU9g7IhYOU7hN9ziLQ"
 });
+
 async function uploadFile(file, fileName) {
     try {
         await b2.authorize(); // must authorize first
@@ -35,34 +32,35 @@ async function uploadFile(file, fileName) {
         console.log("Error getting bucket:", err);
     }
 }
-function read_file(path) {
+function readFile(path) {
     const fs = require("fs");
     return fs.readFileSync(path);
 }
-function test_upload() {
-    const path = "/home/diana/Downloads/reportes";
-    const name = "Abad Castro_Sheila_OD_05112019_104954.pdf";
-    uploadFile(buffer, path + "/" + name);
-}
 
 const isAnalyzable = aFile => true;
-const { getLastLine } = require("./files");
 
 const processFile = aFilePath => {
+    console.log(aFilePath);
+
     const aFileName = path.basename(aFilePath);
 
     logger.info(`Leyendo..${aFileName}`);
     if (!isAnalyzable(aFileName)) {
         return;
     }
-    file = read_file(aFilePath);
+
+    const file = readFile(aFilePath);
     // TODO: parse name file
-    uploadFile(file, aFileName);
+    console.log(file.length);
+    uploadFile(file, aFileName).then(response => {
+        console.log(response);
+    });
 };
 
 const startWatch = () => {
     const watcher = chokidar.watch(pentacamReportPath, {
-        awaitWriteFinish: true
+        awaitWriteFinish: true,
+        ignoreInitial: true
     });
     watcher.on("add", path => {
         processFile(path);
