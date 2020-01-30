@@ -14,8 +14,8 @@ const pentacamReportPath = store.get("reportUriInput");
 const B2 = require("backblaze-b2");
 
 const b2 = new B2({
-    applicationKeyId: "000e47ee7219c340000000001", // or accountId: 'accountId'
-    applicationKey: "K00033x74HxDraU9g7IhYOU7hN9ziLQ" // or masterApplicationKey
+    applicationKeyId: "000e47ee7219c340000000001",
+    applicationKey: "K00033x74HxDraU9g7IhYOU7hN9ziLQ"
 });
 async function uploadFile(file, fileName) {
     try {
@@ -26,11 +26,9 @@ async function uploadFile(file, fileName) {
             uploadAuthToken:
                 "4_000e47ee7219c340000000001_0191efe3_191de0_upld_pVvZ_RDAx_bUJxhWb8__VzRl0ks=",
             fileName,
-            contentLength: 0, // optional data length, will default to data.byteLength or data.length if not provided
-            mime: "", // optional mime type, will default to 'b2/x-auto' if not provided
-            data: file // this is expecting a Buffer, not an encoded string
-            //hash: 'sha1-hash' // optional data hash, will use sha1(data) if not provided
-            // ...common arguments (optional)
+            contentLength: 0, //TODO
+            mime: "pdf", //TODO
+            data: file
         });
         return response.data;
     } catch (err) {
@@ -74,7 +72,6 @@ const startWatch = () => {
 
 module.exports = {
     pentacamReportPath,
-    filesToAnalyze,
     startWatch,
     isAnalyzable,
     processFile,

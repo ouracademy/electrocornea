@@ -98,6 +98,9 @@ autoUpdater.on("update-downloaded", info => {
 const { startWatch } = require("../modules/watch");
 watcher = startWatch();
 
+// const { startWatch } = require("../modules/watch");
+// watcher = startWatch();
+
 // const {
 //     cronLongProcess,
 //     FileSynchronizer
