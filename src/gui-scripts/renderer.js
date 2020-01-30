@@ -44,6 +44,14 @@ select("#logging-uri-form").addEventListener("submit", evt => {
     alert("Logging URI cambiada");
 });
 
+let reportUri = document.getElementById("report-form");
+reportUri.value = loggingUri;
+select("#report-form").addEventListener("submit", evt => {
+    evt.preventDefault();
+    store.set("reportUriInput", reportUri.value);
+    alert("Report URI cambiada");
+});
+
 select("#test-form").addEventListener("submit", evt => {
     evt.preventDefault();
     const files = {
