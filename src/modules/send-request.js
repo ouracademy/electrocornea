@@ -1,11 +1,15 @@
 const { logger } = require("./log");
 const got = require("got");
 
-const url = "http://127.0.0.1:8000/exams-file"; // "https://keratoconus-exams.herokuapp.com/exams-file";
+const url = "http://127.0.0.1:8000"; // "https://keratoconus-exams.herokuapp.com/exams-file";
+
+const client = got.extend({
+  prefixUrl: url
+});
 
 const sendRequest = aFileName => lastLine =>
-  got
-    .post(url, {
+  client
+    .post("exams-file", {
       json: { file: aFileName, data: lastLine },
       responseType: "json"
     })
@@ -19,4 +23,7 @@ const sendRequest = aFileName => lastLine =>
     )
     .catch(error => logger.warn(JSON.stringify(error)));
 
-exports.sendRequest = sendRequest;
+module.exports = {
+  sendRequest,
+  client
+};

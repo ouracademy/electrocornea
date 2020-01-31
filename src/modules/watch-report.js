@@ -7,7 +7,7 @@ const { logger } = require("./log");
 // TODO: validate that folder contains appropiate filesToAnalyze
 const pentacamReportPath = store.get("reportUriInput");
 
-const got = require("got");
+const { client } = require("./send-request");
 const FormData = require("form-data");
 const fs = require("fs");
 
@@ -16,9 +16,7 @@ const uploadFile = filePath => {
 
   form.append("file", fs.createReadStream(filePath));
 
-  return got.post("http://127.0.0.1:8000/report", {
-    body: form
-  });
+  return client.post("report", { body: form });
 };
 
 const isAnalyzable = aFile => true;
