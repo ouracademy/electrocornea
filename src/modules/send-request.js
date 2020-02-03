@@ -1,7 +1,7 @@
 const { logger } = require("./log");
 const got = require("got");
 
-const url = "http://127.0.0.1:8000"; // "https://keratoconus-exams.herokuapp.com/exams-file";
+const url = "https://keratoconus-exams.herokuapp.com"; // "http://127.0.0.1:8000";
 
 const client = got.extend({
   prefixUrl: url
