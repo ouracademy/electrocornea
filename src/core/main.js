@@ -20,7 +20,13 @@ const createDefaultWindow = () => {
     win = new BrowserWindow({
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        show: false
+    });
+
+    win.once("ready-to-show", () => {
+        win.show();
+        win.minimize();
     });
 
     win.on("closed", () => {
