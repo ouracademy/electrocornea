@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu } = require("electron");
+const { app, BrowserWindow, Tray, Menu, nativeImage } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const { store } = require("../modules/store");
 const { logger } = require("../modules/log");
@@ -15,7 +15,10 @@ let reportWatcher;
 let tray;
 
 const title = "ElectroCornea";
-const icon = path.join("build", "icon.ico");
+
+// Icon path on build (packed) electron-builder
+// https://stackoverflow.com/questions/48740306/electron-tray-icon-issue-on-windows-10
+const icon = nativeImage.createFromPath(path.join(__dirname, "build/icon.ico"));
 
 const dispatch = data => {
   win.webContents.send("message", data);
