@@ -18,7 +18,9 @@ const title = "ElectroCornea";
 
 // Icon path on build (packed) electron-builder
 // https://stackoverflow.com/questions/48740306/electron-tray-icon-issue-on-windows-10
-const icon = nativeImage.createFromPath(path.join(__dirname, "build/icon.ico"));
+
+const iconPath = path.join(__dirname, "..", "..", "build/icon.ico");
+const icon = iconPath;
 
 const dispatch = data => {
   win.webContents.send("message", data);
