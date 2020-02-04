@@ -1,6 +1,6 @@
 {
   "name": "electrocornea",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "ElectroCornea desktop client",
   "main": "src/core/main.js",
   "scripts": {
@@ -27,7 +27,10 @@
     "productName": "ElectroCornea",
     "copyright": "Copyright © 2019 Ouracademy",
     "publish": [
-      "github"
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
     ],
     "win": {
       "target": [
