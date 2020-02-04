@@ -2,13 +2,23 @@ const fs = require("fs");
 const readline = require("readline");
 const Stream = require("stream");
 
+const iconv = require("iconv-lite");
+
+function readFile(filename) {
+  const content = fs.createReadStream(filename);
+
+  return content
+    .pipe(iconv.decodeStream("ISO-8859-1"))
+    .pipe(iconv.encodeStream("UTF-8"));
+}
+
 /**
  * Sample of using it:
  * @example
  * getLastLine("/home/diana/code/electrocornea/files/SUMMARY.CSV").then(console.log)
  */
 const getLastLine = fileName => {
-  let inStream = fs.createReadStream(fileName);
+  let inStream = readFile(fileName);
   let outStream = new Stream();
   return new Promise((resolve, reject) => {
     let rl = readline.createInterface(inStream, outStream);
