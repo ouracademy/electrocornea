@@ -55,7 +55,7 @@
     "electron-store": "^5.1.0",
     "electron-updater": "^4.2.0",
     "form-data": "^3.0.0",
-    "got": "^10.4.0",
+    "got": "^11.8.5",
     "iconv-lite": "^0.5.1",
     "slice-file": "^1.0.0",
     "tailwindcss": "^1.1.4",
